@@ -1,0 +1,28 @@
+-- ServerScriptService/BoxPurchaseDemo.server.lua
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local buyBox = ReplicatedStorage:FindFirstChild("BuyBoxDemo")
+
+if not buyBox then
+    buyBox = Instance.new("RemoteEvent")
+    buyBox.Name = "BuyBoxDemo"
+    buyBox.Parent = ReplicatedStorage
+end
+
+buyBox.OnServerEvent:Connect(function(player, boxName)
+    if typeof(boxName) ~= "string" then
+        return
+    end
+
+    local leaderstats = player:FindFirstChild("leaderstats")
+    local coins = leaderstats and leaderstats:FindFirstChild("Coins")
+
+    if not coins then
+        warn("Coins not found for " .. player.Name)
+        return
+    end
+
+    -- شراء تجريبي: لا تخصم أي عملات
+    print(player.Name .. " requested box: " .. boxName)
+end)
